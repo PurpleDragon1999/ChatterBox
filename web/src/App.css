@@ -1,5 +1,5 @@
-.welcome-card {
-  margin-top: 50%;
+#root {
+  height: 100%;
 }
 
 .input-fields {
@@ -34,6 +34,17 @@
   font-size: 2rem;
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  text-align: start;
+  padding-right: 0.5rem;
+  font-size: small;
+}
+
 .glow {
   color: #fff;
   text-align: center;
@@ -66,13 +77,29 @@
   }
 }
 
-.bulb {
-  margin-left: 1rem;
-  font-size: 3rem;
-  -ms-transform: rotate(135deg);
-  transform: rotate(135deg);
+.container .contain-chat {
+  width: 70%;
 }
 
-.bulb:hover {
-  cursor: pointer;
+@media only screen and (max-width: 600px) {
+  .container .contain-chat {
+    width: 90% !important;
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+
+  .chat {
+    width: 100% !important;
+  }
+}
+
+.list-of-users {
+  background-color: #82c4c3;
+  width: 25%;
+  overflow: auto;
+}
+
+.chat {
+  width: 75%;
+  overflow: auto;
 }

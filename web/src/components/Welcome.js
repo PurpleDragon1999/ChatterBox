@@ -1,32 +1,50 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export class Welcome extends Component {
+  state = {
+    username: "",
+    room: "Javascript",
+  };
+  onChange = (e) => {
+    let temp = e.target.value;
+    this.setState({ [e.target.name]: temp });
+  };
+
+  enter = () => {
+    console.log(this.state);
+  };
+
   render() {
     return (
       <div id="welcome" className="container">
-        <div className="d-flex flex-row justify-content-center mb-3">
-          {/* <i className="fab fa-ello icon"></i> */}
-          <p className="app-name mx-2 glow">ChatterBox</p>
-          {/* <i className="fab fa-ello icon"></i> */}
-        </div>
-
         <div className="card text-center contain mx-auto">
-          <div className="card-header">Welcome To Chat Room</div>
+          <div style={{ backgroundColor: "#82c4c3" }} className="card-header">
+            Welcome To Chat Room
+          </div>
           <div className="card-body">
             <div className="d-flex justify-content-center">
               <p className="labels d-none d-sm-block pt-2 m-0">Username</p>
               <input
                 type="text"
                 className="input-fields"
-                id="username"
+                name="username"
+                value={this.state.username}
+                onChange={this.onChange}
                 placeholder="Enter Username"
               />
             </div>
 
             <div className="mt-3 d-flex justify-content-center">
               <p className="labels d-none d-sm-block pt-2 m-0">Select Room</p>
-              <select name="room" className="input-fields" id="room">
-                <option value="JavaScript">JavaScript</option>
+              <select
+                name="room"
+                className="input-fields"
+                value={this.state.room}
+                onChange={this.onChange}
+                id="room"
+              >
+                <option value="JavaScript">Javascript</option>
                 <option value="Python">Python</option>
                 <option value="PHP">PHP</option>
                 <option value="C#">C#</option>
@@ -35,7 +53,13 @@ export class Welcome extends Component {
               </select>
             </div>
 
-            <button className="btn btn-primary btn-block mt-3">Enter</button>
+            <Link
+              to={`/chatRoom/${this.state.room}/${this.state.username}`}
+              className="btn btn-primary btn-block mt-3"
+              onClick={this.enter}
+            >
+              Enter
+            </Link>
           </div>
         </div>
       </div>
