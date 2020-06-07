@@ -1,6 +1,10 @@
 # ChatterBox
 A simple chat application.
 
+
+![](Images/Welcome.png)
+
+
 To start the Application - 
 
 1. Clone the Application in your system.
