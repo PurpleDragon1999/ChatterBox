@@ -3,6 +3,9 @@ A simple chat application.
 
 
 ![](Images/Welcome.png)
+![](Images/UserJoined.png)
+![](Images/MessageSent.png)
+![](Images/UserLeft.png)
 
 
 To start the Application - 
