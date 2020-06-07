@@ -28,7 +28,11 @@ export class Chat extends Component {
   renderChat() {
     const { chat } = this.state;
     return chat.map(({ username, message }, idx) => (
-      <Message username={username} msg={message} key={idx} />
+      <Message
+        username={username === this.state.username ? "You" : username}
+        msg={message}
+        key={idx}
+      />
     ));
   }
 

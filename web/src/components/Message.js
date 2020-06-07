@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export class Message extends Component {
   render() {
@@ -19,5 +20,10 @@ export class Message extends Component {
     );
   }
 }
+
+Message.propTypes = {
+  username: PropTypes.string.isRequired,
+  msg: PropTypes.string.isRequired,
+};
 
 export default Message;
