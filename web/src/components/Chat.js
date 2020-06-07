@@ -4,13 +4,14 @@ import { Message } from "./Message";
 import io from "socket.io-client";
 
 export class Chat extends Component {
-  socket = io.connect("http://localhost:3001");
+  socket;
 
   state = {
     message: "",
     chat: [],
     username: this.props.match.params.username,
-    roomName: this.props.match.params.roomName,
+    room: this.props.match.params.roomName,
+    users: [],
   };
 
   onChange = (e) => {
@@ -18,33 +19,59 @@ export class Chat extends Component {
   };
 
   componentDidMount() {
-    this.socket.on(this.state.roomName, ({ username, message }) => {
+    this.socket = io.connect("http://localhost:3001");
+    const { username, room } = this.state;
+
+    this.socket.emit("joinRoom", { username, room });
+
+    //listening to messages
+    this.socket.on("message", ({ username, text, time }) => {
       this.setState({
-        chat: [...this.state.chat, { username, message }],
+        chat: [...this.state.chat, { username, text, time }],
+      });
+    });
+
+    //listening to users
+    this.socket.on("roomUsers", ({ room, users }) => {
+      this.setState({
+        users: users,
       });
     });
   }
 
+  componentWillUnmount() {
+    this.socket.emit("disconnect", () => {});
+  }
+
   renderChat() {
     const { chat } = this.state;
-    return chat.map(({ username, message }, idx) => (
+    return chat.map(({ username, text, time }, idx) => (
       <Message
         username={username === this.state.username ? "You" : username}
-        msg={message}
+        msg={text}
+        time={time}
         key={idx}
       />
     ));
   }
 
+  renderUsers() {
+    const { users } = this.state;
+    return users.map((user, idx) => <li key={idx}>{user.username}</li>);
+  }
+
+  leaveRoom = (e) => {
+    this.socket.emit("disconnect", () => {});
+  };
+
   onClick = (e) => {
-    const { username, message } = this.state;
-    this.socket.emit(this.state.roomName, { message, username });
+    const { message } = this.state;
+    this.socket.emit("chatMessage", message);
     this.setState({ message: "" });
   };
 
   render() {
     const roomName = "Welcome To " + this.props.match.params.roomName;
-    let users = [];
     return (
       <div style={{ height: "70%" }}>
         <div id="welcome" className="container h-100">
@@ -54,7 +81,11 @@ export class Chat extends Component {
               className="card-header d-flex flex-row justify-content-between"
             >
               <p className="m-0">{roomName}</p>
-              <Link to="/" className="btn btn-primary btn-sm">
+              <Link
+                to="/"
+                className="btn btn-primary btn-sm"
+                onClick={this.leaveRoom}
+              >
                 Leave
               </Link>
             </div>
@@ -65,11 +96,7 @@ export class Chat extends Component {
                   <p className="mb-0 ml-1">Users</p>
                 </div>
 
-                <ul>
-                  {users.map((user) => (
-                    <li>{user}</li>
-                  ))}
-                </ul>
+                <ul>{this.renderUsers()}</ul>
               </div>
               <div className="chat py-1 px-3">{this.renderChat()}</div>
             </div>

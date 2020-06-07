@@ -11,10 +11,6 @@ export class Welcome extends Component {
     this.setState({ [e.target.name]: temp });
   };
 
-  enter = () => {
-    console.log(this.state);
-  };
-
   render() {
     return (
       <div id="welcome" className="container">
@@ -56,7 +52,6 @@ export class Welcome extends Component {
             <Link
               to={`/chatRoom/${this.state.room}/${this.state.username}`}
               className="btn btn-primary btn-block mt-3"
-              onClick={this.enter}
             >
               Enter
             </Link>
