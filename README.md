@@ -1,6 +1,13 @@
 # ChatterBox
 A simple chat application.
 
+
+![](Images/Welcome.png)
+![](Images/UserJoined.png)
+![](Images/MessageSent.png)
+![](Images/UserLeft.png)
+
+
 To start the Application - 
 
 1. Clone the Application in your system.
