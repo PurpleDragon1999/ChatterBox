@@ -19,7 +19,7 @@ export class Chat extends Component {
   };
 
   componentDidMount() {
-    this.socket = io.connect("http://localhost:3001");
+    this.socket = io.connect("https://chatterbox-backend1999.herokuapp.com");
     const { username, room } = this.state;
 
     this.socket.emit("joinRoom", { username, room });
