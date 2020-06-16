@@ -2,9 +2,12 @@ const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
 
-const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require(
-  "./users",
-);
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./users");
 const formatMessage = require("./message");
 
 const app = express();
@@ -22,14 +25,14 @@ io.on("connection", (socket) => {
 
     socket.emit(
       "message",
-      formatMessage(botName, `Hello ${username}, You have joined ${room} room`),
+      formatMessage(botName, `Hello ${username}, You have joined ${room} room`)
     );
 
     socket.broadcast
       .to(user.room)
       .emit(
         "message",
-        formatMessage(botName, `${user.username} has joined the chat`),
+        formatMessage(botName, `${user.username} has joined the chat`)
       );
 
     io.to(user.room).emit("roomUsers", {
@@ -48,7 +51,7 @@ io.on("connection", (socket) => {
     if (user) {
       io.to(user.room).emit(
         "message",
-        formatMessage(botName, `${user.username} has left the chat`),
+        formatMessage(botName, `${user.username} has left the chat`)
       );
 
       io.to(user.room).emit("roomUsers", {
@@ -59,7 +62,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => {
   console.log(`Server Listening at ${PORT}`);
